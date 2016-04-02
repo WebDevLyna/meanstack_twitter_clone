@@ -16,6 +16,13 @@
     // $scope is an object/service.property(meows), it allows two-way data binding using {{}}
     app.controller('MittensCtrl', function($scope, $http) {
 
+      // The below code associated with ng-model below will record/submit to console (console.log($scope.newMeow), but instead, seding it to $http.post json)
+      $scope.submitNewMeow = function() {
+        $http.post('/meows', {newMeow: $scope.newMeow}).then(function() {
+          alert('success!');
+        });
+      };
+
     //// This block of code was moved from the front end to server.js to store in the database
       // $scope.meows = [
       //   'Hello, I flipped over a cup.',
@@ -29,8 +36,11 @@
     // Callback function, that gets call when successfully gets meows from the server
       // $http is a service, .get is a function in that service (calls route meows).success is a promise (way to specify callback)
       $http.get('/meows').then(function(response) {
+
         $scope.meows = response.data;
+
       });
+
     });
 
   </script>
@@ -48,8 +58,14 @@
       <input type="text" size="30" placeholder="Username">
       <br><br>
       <input type="password" size="30" placeholder="Password">
-    </div>
+    </div><br>
+
     <div class="col-md-8">
+      <div class="new-meow">
+        <!-- ng-model directive binds (two-way) the value of HTML controls (input, select, textarea) to app data-->
+        <input type="text" class="form-control" ng-model="newMeow" placeholder="What do you have to meow today?">
+        <button type="button" class="btn btn-primary" ng-click="submitNewMeow()">Submit</button>
+      </div>
       <!-- ng-repeat to repeat H3 block for each meow in the function $scope.meows array above -->
       <h3 ng-repeat="postMeow in meows">
         <!-- glyphicon is a bootstrap component, area-hidden will disable reading for impaired -->
