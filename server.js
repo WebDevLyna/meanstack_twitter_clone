@@ -3,10 +3,22 @@
 
 // require express Library
 var express = require('express');
+// require MongoClient for mongodb to Retrieve
+var MongoClient = require('mongodb').MongoClient;
 // Require body-parser needed by json to auto-parse 'body' in (req.body)
 var bodyParser = require('body-parser');
 // Back-end app
 var app = express();
+
+var db = null;
+
+// Connect to the db
+MongoClient.connect("mongodb://localhost:27017/twitter_clone_meanstack", function(err, dbconn) {
+  if(!err) {
+    console.log("We are connected to MongoDB");
+    db = dbconn;
+  }
+});
 
 // Require body-parser needed by json to auto-parse 'body' in (req.body)
 app.use(bodyParser.json());
@@ -25,12 +37,25 @@ app.use(express.static('public'));
 // API (Application Interface Call), route
 app.get('/meows', function(req, res, next) {
 
-  return res.send(meows);
+  db.collection('meows', function(err, meowsCollection) {
+    meowsCollection.find().toArray(function(err, meows) {
+      return res.json(meows);
+    });
+  });
 });
 
 app.post('/meows', function(req, res, next) {
-  meows.push(req.body.newMeow);
-  res.send();
+
+  db.collection('meows', function(err, meowsCollection) {
+    var newMeow = {
+        text: req.body.newMeow
+      };
+    // Inserting 1) object, 2) options {w:1} and 3) callback function
+    meowsCollection.insert(newMeow, {w:1}, function(err) {
+      return res.send();
+
+    });
+  });
 });
 
 // Have to specify port 3000, defaults on 8080. Listen is a callback
