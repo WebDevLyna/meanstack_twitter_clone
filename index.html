@@ -39,10 +39,11 @@
       <input type="password" size="30" placeholder="Password">
     </div>
     <div class="col-md-8">
-      <h3>
+      <!-- ng-repeat to repeat H3 block for each meow in the function $scope.meows array above -->
+      <h3 ng-repeat="postMeow in meows">
         <!-- glyphicon is a bootstrap component, area-hidden will disable reading for impaired -->
         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-        Hello, I flipped over a cup.
+        {{ postMeow }}
       </h3>
     </div>
   </div>
