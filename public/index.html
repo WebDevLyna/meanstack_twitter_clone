@@ -13,14 +13,24 @@
   <script type="text/javascript">
     var app = angular.module('mittens', []);
 
-    // $scope is an object.property(meows), it allows two-way data binding using {{}}
-    app.controller('MittensCtrl', function($scope) {
-      $scope.meows = [
-        'Hello, I flipped over a cup.',
-        'My owner just said hi to me. Yum.',
-        'It is time for a nap',
-        'Hello again.',
-      ];
+    // $scope is an object/service.property(meows), it allows two-way data binding using {{}}
+    app.controller('MittensCtrl', function($scope, $http) {
+
+    //// This block of code was moved from the front end to server.js to store in the database
+      // $scope.meows = [
+      //   'Hello, I flipped over a cup.',
+      //   'My owner just said hi to me. Yum.',
+      //   'It is time for a nap',
+      //   'Hello again.',
+      // ];
+
+    //// Replaced block of code above w/ $scope.meows = response.data etc.
+
+    // Callback function, that gets call when successfully gets meows from the server
+      // $http is a service, .get is a function in that service (calls route meows).success is a promise (way to specify callback)
+      $http.get('/meows').then(function(response) {
+        $scope.meows = response.data;
+      });
     });
 
   </script>
