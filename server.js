@@ -10,12 +10,14 @@ var app = express();
 
 // Require body-parser needed by json to auto-parse 'body' in (req.body)
 app.use(bodyParser.json());
-  var meows = [
-    'Hello, I flipped over a cup.',
-    'My owner just said hi to me. Yum.',
-    'It is time for a nap',
-    'It is my birthday!',
-  ];
+
+  //// This block of code is removed once we store it in mongodb
+  // var meows = [
+  //   'Hello, I flipped over a cup.',
+  //   'My owner just said hi to me. Yum.',
+  //   'It is time for a nap',
+  //   'It is my birthday!',
+  // ];
 
 // Serving static files in Express, lets you specify a folder to serve file
 app.use(express.static('public'));
