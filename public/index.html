@@ -19,7 +19,15 @@
       // The below code associated with ng-model below will record/submit to console (console.log($scope.newMeow), but instead, seding it to $http.post json)
       $scope.submitNewMeow = function() {
         $http.post('/meows', {newMeow: $scope.newMeow}).then(function() {
-          alert('success!');
+          getMeows();
+          $scope.newMeow = '';
+        });
+      };
+
+    // Using $scope.removeMeow instead of function.removeMeow bc need to call from front-end
+      $scope.removeMeow = function(meow) {
+        $http.put('/meows/remove', {meow: meow}).then(function() {
+          getMeows();
         });
       };
 
@@ -35,12 +43,13 @@
 
     // Callback function, that gets call when successfully gets meows from the server
       // $http is a service, .get is a function in that service (calls route meows).success is a promise (way to specify callback)
-      $http.get('/meows').then(function(response) {
+      function getMeows() {
+        $http.get('/meows').then(function(response) {
+          $scope.meows = response.data;
 
-        $scope.meows = response.data;
-
-      });
-
+        });
+      }
+      getMeows();
     });
 
   </script>
@@ -67,10 +76,11 @@
         <button type="button" class="btn btn-primary" ng-click="submitNewMeow()">Submit</button>
       </div>
       <!-- ng-repeat to repeat H3 block for each meow in the function $scope.meows array above -->
-      <h3 ng-repeat="postMeow in meows">
+      <h3 ng-repeat="meow in meows">
         <!-- glyphicon is a bootstrap component, area-hidden will disable reading for impaired -->
         <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-        {{ postMeow.text }}
+        {{ meow.text }}
+        <a href ng-click="removeMeow(meow)"><span class="glyphicon glyphicon-remove"aria-hidden="true"></span></a>
       </h3>
     </div>
   </div>

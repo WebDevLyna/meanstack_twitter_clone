@@ -5,6 +5,7 @@
 var express = require('express');
 // require MongoClient for mongodb to Retrieve
 var MongoClient = require('mongodb').MongoClient;
+var ObjectId = require('mongodb').ObjectId;
 // Require body-parser needed by json to auto-parse 'body' in (req.body)
 var bodyParser = require('body-parser');
 // Back-end app
@@ -54,6 +55,17 @@ app.post('/meows', function(req, res, next) {
     meowsCollection.insert(newMeow, {w:1}, function(err) {
       return res.send();
 
+    });
+  });
+});
+
+app.put('/meows/remove', function(req, res, next) {
+
+  db.collection('meows', function(err, meowsCollection) {
+    var meowId = req.body.meow._id;
+    // Inserting 1) object, 2) options {w:1} and 3) callback function
+    meowsCollection.remove({_id: ObjectId(meowId)}, {w:1}, function(err) {
+      return res.send();
     });
   });
 });
