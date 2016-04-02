@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mittens</title>
+  <!-- Download Bootstrap and moved the folder to app root, delete extension folder name -->
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+  <style>
+    .feed {
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-top: 50px;
+      border: 1px solid black;
+      min-height: 100px;
+    }
+
+    .feed h3 {
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mittens</h1>
+  <!-- Row Parent of H3 is feed (taking from the style .feed class above) -->
+  <div class="row feed">
+    <div class="col-md-4">
+      Login
+      <br><br>
+      <!-- This creates a login form for username and password -->
+      <input type="text" size="30" placeholder="Username">
+      <br><br>
+      <input type="password" size="30" placeholder="Password">
+    </div>
+    <div class="col-md-8">
+      <h3>
+        Hello, I flipped over a cup.
+      </h3>
+      <h3>
+        My owner just said hi to me. Yum.
+      </h3>
+      <h3>
+        I ran around the house today and made a mess.
+      </h3>
+    </div>
+  </div>
+</body>
+</html>
