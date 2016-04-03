@@ -107,20 +107,6 @@ app.put('/users/login', function(req, res, next) {
         }
       });
     });
-
-    // // Store hash in your password DB.
-    // bcrypt.genSalt(10, function(err, salt) {
-    //   bcrypt.hash(req.body.password, salt, function(err, hash) {
-    //     // Storing 'hash' as password below
-    //       var newUser = {
-    //           username: req.body.username,
-    //           password: hash
-    //       };
-    //       usersCollection.insert(newUser, {w:1}, function(err) {
-    //         return res.send();
-    //     });
-    //   });
-    // });
   });
 });
 
