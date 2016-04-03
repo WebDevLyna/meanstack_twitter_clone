@@ -15,6 +15,7 @@
   <script type="text/javascript">
     var app = angular.module('mittens', ['ngRoute']);
 
+    // Configuration for routes
     app.config(function($routeProvider, $locationProvider) {
       $routeProvider
       .when('/', {
@@ -44,6 +45,17 @@
           getMeows();
         });
       };
+
+    // Sign in controller, connected to Login button.
+    // $http service.put, route (path), then $scope username and pw (connected to ng-model in home.html).
+      $scope.login = function() {
+        $http.put('/users/login', {username: '$scope.username', password: '$scope.password'})
+          .then(function() {
+            alert('Successfully logged in');
+          }, function(err) {
+            alert("Please check your credentials");
+          });
+      }
 
     //// This block of code was moved from the front end to server.js to store in the database
       // $scope.meows = [
@@ -87,7 +99,7 @@
 </head>
 <!-- Step 2: Initialize Angular controller -->
 <body>
-  <h1 class="page-title">Mittens</h1>
+  <h1 class="page-title"><a href="#/">Mittens</a></h1>
   <div ng-view></div>
 
 </body>

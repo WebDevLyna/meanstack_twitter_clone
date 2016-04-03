@@ -8,9 +8,10 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectId;
 // Require body-parser needed by json to auto-parse 'body' in (req.body)
 var bodyParser = require('body-parser');
+// Require node.js bcrypt for Login and password authentication
+var bcrypt = require('bcrypt');
 // Back-end app
 var app = express();
-
 var db = null;
 
 // Connect to the db
@@ -74,10 +75,52 @@ app.post('/users', function(req, res, next) {
 
   db.collection('users', function(err, usersCollection) {
 
-    usersCollection.insert(req.body, {w:1}, function(err) {
-      return res.send();
-
+    // Store hash in your password DB.
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(req.body.password, salt, function(err, hash) {
+        // Storing 'hash' as password below
+          var newUser = {
+              username: req.body.username,
+              password: hash
+          };
+          usersCollection.insert(newUser, {w:1}, function(err) {
+            return res.send();
+        });
+      });
     });
+  });
+});
+
+
+app.put('/users/login', function(req, res, next) {
+
+  db.collection('users', function(err, usersCollection) {
+
+    usersCollection.findOne({username: req.body.username}, function(err, user) {
+      // Load the password hash from DB
+      // Let's assume it's stored in a variable called `hash`
+      bcrypt.compare(req.body.password, user.password, function(err, result) {
+        if (result) {
+            return res.send();
+        } else {
+            return res.status(400).send();
+        }
+      });
+    });
+
+    // // Store hash in your password DB.
+    // bcrypt.genSalt(10, function(err, salt) {
+    //   bcrypt.hash(req.body.password, salt, function(err, hash) {
+    //     // Storing 'hash' as password below
+    //       var newUser = {
+    //           username: req.body.username,
+    //           password: hash
+    //       };
+    //       usersCollection.insert(newUser, {w:1}, function(err) {
+    //         return res.send();
+    //     });
+    //   });
+    // });
   });
 });
 
