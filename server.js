@@ -10,6 +10,12 @@ var ObjectId = require('mongodb').ObjectId;
 var bodyParser = require('body-parser');
 // Require node.js bcrypt for Login and password authentication
 var bcrypt = require('bcrypt');
+// Require json web token for saving session (login) unles token deleted
+var jwt = require('jwt-simple');
+
+// Constant variables in CAPS, goot convention. If catsmeow is discovered, can change and log back in.
+var JWT_SECRET = 'catsmeow';
+
 // Back-end app
 var app = express();
 var db = null;
@@ -101,7 +107,9 @@ app.put('/users/login', function(req, res, next) {
       // Let's assume it's stored in a variable called `hash`
       bcrypt.compare(req.body.password, user.password, function(err, result) {
         if (result) {
-            return res.send();
+          // encode, place payload with user
+            var token = jwt.encode(user, JWT_SECRET);
+            return res.json({token: token});
         } else {
             return res.status(400).send();
         }

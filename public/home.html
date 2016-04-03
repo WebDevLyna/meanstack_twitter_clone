@@ -1,15 +1,21 @@
 <!-- Row Parent of H3 is feed (taking from the style .feed class above) -->
 <div class="row feed">
   <div class="col-md-4">
-    <h4>Login</h4>
-    <br>
-    <!-- This creates a login form for username and password -->
-    <input type="text" size="30" placeholder="Username" ng-model="username">
-    <br><br>
-    <input type="password" size="30" placeholder="Password" ng-model="password">
-    <button type="button" ng-click="login()">Log In</button>
-    <br>
-    <a href="#/signup">Not a member? Signup!</a>
+    <!-- If I'm logged in, hide everything in between this div -->
+    <div ng-hide="currentUser">
+      <h4>Login</h4>
+      <br>
+      <!-- This creates a login form for username and password -->
+      <input type="text" size="30" placeholder="Username" ng-model="username">
+      <br><br>
+      <input type="password" size="30" placeholder="Password" ng-model="password">
+      <button type="button" ng-click="login()">Log In</button>
+      <br>
+      <a href="#/signup">Not a member? Signup!</a>
+    </div>
+    <div ng-show"currentUser">
+      Hello, {{ currentUser }}.
+    </div>
   </div><br>
 
   <div class="col-md-8">
