@@ -61,18 +61,23 @@
       $scope.login = function() {
         $http.put('/users/login', {username: $scope.username, password: $scope.password})
           .then(function(res) {
-          console.log(res.data.token);
           // $cookies.put(key, value). Save then store in memory
           $cookies.put('token', res.data.token);
           $cookies.put('currentUser', $scope.username);
           $rootScope.token = res.data.token;
           // When logged in, it will show current user is logged in
           $rootScope.currentUser = $scope.username;
-            alert('Successfully logged in');
           }, function(err) {
             alert("Please check your credentials");
           });
       }
+
+      $scope.logout = function() {
+        $cookies.remove('token');
+        $cookies.remove('currentUser');
+        $rootScope.token = null;
+        $rootScope.currentUser = null;
+      };
 
     // Callback function, that gets call when successfully gets meows from the server
       // $http is a service, .get is a function in that service (calls route meows).success is a promise (way to specify callback)

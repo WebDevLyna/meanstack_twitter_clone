@@ -13,13 +13,15 @@
       <br>
       <a href="#/signup">Not a member? Signup!</a>
     </div>
-    <div ng-show"currentUser">
+    <div ng-show="currentUser">
       Hello, {{ currentUser }}.
+      <br><br>
+      <a href ng-click="logout()">Logout</a>
     </div>
   </div><br>
 
   <div class="col-md-8">
-    <div class="new-meow">
+    <div class="new-meow" ng-show="currentUser">
       <!-- ng-model directive binds (two-way) the value of HTML controls (input, select, textarea) to app data-->
       <input type="text" class="form-control" ng-model="newMeow" placeholder="What do you have to meow today?">
       <button type="button" class="btn btn-primary" ng-click="submitNewMeow()">Submit</button>
