@@ -21,7 +21,7 @@ var app = express();
 var db = null;
 
 // Connect to the db
-MongoClient.connect("mongodb://localhost:27017/twitter_clone_meanstack", function(err, dbconn) {
+MongoClient.connect(process.env.MONGOLAB_URI || "mongodb://localhost:27017/twitter_clone_meanstack", function(err, dbconn) {
   if(!err) {
     console.log("We are connected to MongoDB");
     db = dbconn;
@@ -130,6 +130,7 @@ app.put('/users/login', function(req, res, next) {
 });
 
 // Have to specify port 3000, defaults on 8080. Listen is a callback
-app.listen(3000, function () {
+//  Process is a variable w Node. Env = Environment variable of PORT
+app.listen(process.env.PORT, function () {
   console.log('Example app listening on port 3000!');
 });
