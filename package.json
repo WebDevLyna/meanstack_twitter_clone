@@ -2,6 +2,7 @@
   "name": "lyna-mittens-meanstack",
   "main": "server.js",
   "dependencies": {
+    "node": "^5.7.0",
     "bcrypt": "^2.3.0",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
