@@ -42,8 +42,13 @@
     app.controller('HomeController', function($rootScope, $scope, $http, $cookies) {
 
       // The below code associated with ng-model below will record/submit to console (console.log($scope.newMeow), but instead, seding it to $http.post json)
+      // $http can hae up to 3 aruguments undefined arguments will be null.
       $scope.submitNewMeow = function() {
-        $http.post('/meows', {newMeow: $scope.newMeow}).then(function() {
+        $http.post('/meows',
+        {newMeow: $scope.newMeow},
+        // headers contains token for current user
+        {headers: {
+            'authorization': $rootScope.token}}).then(function() {
           getMeows();
           $scope.newMeow = '';
         });
@@ -51,7 +56,11 @@
 
     // Using $scope.removeMeow instead of function.removeMeow bc need to call from front-end
       $scope.removeMeow = function(meow) {
-        $http.put('/meows/remove', {meow: meow}).then(function() {
+        $http.put('/meows/remove',
+          {meow: meow},
+          {headers: {
+              'authorization': $rootScope.token
+          }}).then(function() {
           getMeows();
         });
       };

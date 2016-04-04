@@ -54,9 +54,16 @@ app.get('/meows', function(req, res, next) {
 
 app.post('/meows', function(req, res, next) {
 
+  // ExpressJS get headers
+  var token = req.headers.authorization;
+  // Decoding user token
+  var user = jwt.decode(token, JWT_SECRET);
+
   db.collection('meows', function(err, meowsCollection) {
     var newMeow = {
-        text: req.body.newMeow
+        text: req.body.newMeow,
+        user: user._id,
+        username: user.username
       };
     // Inserting 1) object, 2) options {w:1} and 3) callback function
     meowsCollection.insert(newMeow, {w:1}, function(err) {
@@ -68,10 +75,14 @@ app.post('/meows', function(req, res, next) {
 
 app.put('/meows/remove', function(req, res, next) {
 
+  // Only allowing user to remove their own meows (post)
+  var token = req.headers.authorization;
+  var user = jwt.decode(token, JWT_SECRET);
+
   db.collection('meows', function(err, meowsCollection) {
     var meowId = req.body.meow._id;
-    // Inserting 1) object, 2) options {w:1} and 3) callback function
-    meowsCollection.remove({_id: ObjectId(meowId)}, {w:1}, function(err) {
+    // Inserting 1) object, 2) options {w:1} and 3) callback function, add a 4) for username/User of meow (decode object meow/post)
+    meowsCollection.remove({_id: ObjectId(meowId), user: user._id}, {w:1}, function(err) {
       return res.send();
     });
   });
