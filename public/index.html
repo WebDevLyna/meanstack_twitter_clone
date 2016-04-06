@@ -77,8 +77,6 @@
           // When logged in, it will show current user is logged in
           $rootScope.currentUser = $scope.username;
           }, function(err) {
-            then.(function(authData) {
-              $location.path('/#');
             alert("Please check your credentials");
             }
           });
@@ -113,6 +111,8 @@
             password: $scope.password
         };
         $http.post('/users', newUser).then(function() {
+          then.(function(authData) {
+            $location.path('/#');
           alert('success');
         });
       }
