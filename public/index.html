@@ -111,8 +111,6 @@
             password: $scope.password
         };
         $http.post('/users', newUser).then(function() {
-          then.(function(authData) {
-            $location.path('/#');
           alert('success');
         });
       }
